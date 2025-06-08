@@ -2,12 +2,23 @@ package aed;
 
 public class Berretacoin {
 
+    private Saldos saldo;
+    private BlockChain<Bloque<Transaccion>> BlockChain;
+
+
     public Berretacoin(int n_usuarios){
-        throw new UnsupportedOperationException("Implementar!");
+        saldo = new Saldos(n_usuarios);
+        BlockChain = new BlockChain();
     }
 
     public void agregarBloque(Transaccion[] transacciones){
-        throw new UnsupportedOperationException("Implementar!");
+
+        for (Transaccion T : transacciones) {
+            saldo.actualizar(T.id_comprador(), (-1 * T.monto()));
+            saldo.actualizar(T.id_vendedor(), T.monto());
+        }
+
+        // falta hacer la parte de la blockchain
     }
 
     public Transaccion txMayorValorUltimoBloque(){
@@ -19,7 +30,7 @@ public class Berretacoin {
     }
 
     public int maximoTenedor(){
-        throw new UnsupportedOperationException("Implementar!");
+        return saldo.maximoTenedor();
     }
 
     public int montoMedioUltimoBloque(){
