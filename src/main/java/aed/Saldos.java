@@ -46,61 +46,46 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
     public void actualizar(int p, int v) {
         int i = handles[p];
         saldos[i].balance = saldos[i].balance + v;
-
-        if (v > 0 && i != 0) {
-            while (saldos[i].compareTo(saldos[(i-1)/2]) == 1) {
-                   Usuario padreAnt = saldos[(i-1)/2];
-                   saldos[(i-1)/2] = saldos[i];
-                   saldos[i] = padreAnt;
-
-
-                   handles[p] = (i-1)/2;
-                   handles[saldos[i].id] = i;
-
+        if (v > 0) {
+            int iPadre = (i-1)/2;
+            while (saldos[i].compareTo(saldos[iPadre]) == 1) {
+                   heapify(i, iPadre);
                    i = handles[p];
-
+                   iPadre = (i-1)/2;
             }
         } else if (v < 0) {
+            int ihijoIzq = (2*i)+1; 
             if (tieneHijos(p) == 2) {
-                while (saldos[i].compareTo(saldos[(2*i)+1]) == -1 || saldos[i].compareTo(saldos[(2*i)+2]) == -1) {
-                
-                    int hijoMayor = saldos[(2*i)+1].compareTo(saldos[(2*i)+2]);
-                
-                
+
+                int ihijoDer = (2*i)+2;
+                while (saldos[i].compareTo(saldos[ihijoIzq]) == -1 || saldos[i].compareTo(saldos[ihijoDer]) == -1) {                   
+                    int hijoMayor = saldos[ihijoIzq].compareTo(saldos[ihijoDer]);
                     if (hijoMayor == 1) { // hijo izquiero es el mayor
-                        Usuario padreAnt = saldos[i];
-                        saldos[i] = saldos[(2*i)+1];
-                        saldos[(2*i)+1] = padreAnt;
-
-                        handles[p] = (2*i)+1;
-                        handles[saldos[i].id] = i;
-
+                        heapify(ihijoIzq, i);
                         i = handles[p];
-
+                        ihijoIzq = (2*i)+1;
+                        ihijoDer = (2*i)+2;
                     } else { // hijo derecho es el mayor
-                        Usuario padreAnt = saldos[i];
-                        saldos[i] = saldos[(2*i)+2];
-                        saldos[(2*i)+2] = padreAnt;
-
-                        handles[p] = (2*i)+2;
-                        handles[saldos[i].id] = i;
-
+                        heapify(ihijoDer, i);
                         i = handles[p];
+                        ihijoIzq = (2*i)+1;
+                        ihijoDer = (2*i)+2;
                     }
                 }
-            } else if (tieneHijos(p) == 1) {
-                while (saldos[i].compareTo(saldos[(2*i)+1]) == -1) {
-                    Usuario padreAnt = saldos[i];
-                    saldos[i] = saldos[(2*i)+1];
-                    saldos[(2*i)+1] = padreAnt;
-
-                    handles[p] = (2*i) +1;
-                    handles[saldos[i].id] = i;
-
-                    i = handles[p];
+            } else if (tieneHijos(p) == 1 && (saldos[i].compareTo(saldos[ihijoIzq]) == -1)) { 
+                //no necesito el while porque si tiene un solo hijo, el hijo esta en el ultimo nivel y entonces mas que una vez no se puede bajar
+                    heapify(ihijoIzq, i);
                 }
             } else {}
         }
+
+    private void heapify(int UsuarioSube, int UsuarioBaja) {
+        Usuario padreAnterior = saldos[UsuarioBaja];
+        saldos[UsuarioBaja] = saldos[UsuarioSube];
+        saldos[UsuarioSube] = padreAnterior;
+        
+        handles[UsuarioBaja] = saldos[UsuarioBaja].id;
+        handles[UsuarioSube] = saldos[UsuarioSube].id;
     }
 
 
@@ -114,8 +99,4 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
         }
         return res;
     }
-}
-
-    
-
 }
