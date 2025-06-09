@@ -1,7 +1,8 @@
 package aed;
 
-public class Saldos implements DiccionarioOrdenado<Saldos.Usuario> {
+public class Saldos implements BDDUsuarios<Saldos.Usuario> {
     private Usuario[] saldos;
+    private int tamaño;
     private int[] handles;
 
 
@@ -29,6 +30,7 @@ public class Saldos implements DiccionarioOrdenado<Saldos.Usuario> {
         saldos = new Usuario[n];
         handles = new int[n+1];
         handles[0] = -1;
+        tamaño = n;
 
         while (c != n+1) {
             saldos[c-1] = new Usuario(c);
@@ -46,40 +48,73 @@ public class Saldos implements DiccionarioOrdenado<Saldos.Usuario> {
         saldos[i].balance = saldos[i].balance + v;
 
         if (v > 0 && i != 0) {
-            while (saldos[i].compareTo(saldos[(i-1)/2]) == -1) {
-                   Usuario x = saldos[(i-1)/2];
+            while (saldos[i].compareTo(saldos[(i-1)/2]) == 1) {
+                   Usuario padreAnt = saldos[(i-1)/2];
                    saldos[(i-1)/2] = saldos[i];
-                   saldos[i] = x;
+                   saldos[i] = padreAnt;
 
 
                    handles[p] = (i-1)/2;
                    handles[saldos[i].id] = i;
 
                    i = handles[p];
-            // habria que re-implementarlo recursivamente para seguir chequeando hacia arriba lo que haga falta (esto es solo una base)
+
             }
         } else if (v < 0) {
-            int hijoMayor = saldos[(2*i)+1].compareTo(saldos[(2*i)+2]);
-            if (hijoMayor == -1) {
-                Usuario x = saldos[i];
-                saldos[i] = saldos[(2*i)+1];
-                saldos[(2*i)+1] = x;
-            } else {
-                Usuario x = saldos[i];
-                saldos[i] = saldos[(2*i)+2];
-                saldos[(2*i)+2] = x;
-            } //estos dos tambien hay que hacerlos una llamada recursiva para seguir chequeando todo lo que haga falta hacia abajo
+            if (tieneHijos(p) == 2) {
+                while (saldos[i].compareTo(saldos[(2*i)+1]) == -1 || saldos[i].compareTo(saldos[(2*i)+2]) == -1) {
+                
+                    int hijoMayor = saldos[(2*i)+1].compareTo(saldos[(2*i)+2]);
+                
+                
+                    if (hijoMayor == 1) { // hijo izquiero es el mayor
+                        Usuario padreAnt = saldos[i];
+                        saldos[i] = saldos[(2*i)+1];
+                        saldos[(2*i)+1] = padreAnt;
 
+                        handles[p] = (2*i)+1;
+                        handles[saldos[i].id] = i;
+
+                        i = handles[p];
+
+                    } else { // hijo derecho es el mayor
+                        Usuario padreAnt = saldos[i];
+                        saldos[i] = saldos[(2*i)+2];
+                        saldos[(2*i)+2] = padreAnt;
+
+                        handles[p] = (2*i)+2;
+                        handles[saldos[i].id] = i;
+
+                        i = handles[p];
+                    }
+                }
+            } else if (tieneHijos(p) == 1) {
+                while (saldos[i].compareTo(saldos[(2*i)+1]) == -1) {
+                    Usuario padreAnt = saldos[i];
+                    saldos[i] = saldos[(2*i)+1];
+                    saldos[(2*i)+1] = padreAnt;
+
+                    handles[p] = (2*i) +1;
+                    handles[saldos[i].id] = i;
+
+                    i = handles[p];
+                }
+            } else {}
         }
     }
 
-    private void heapifyUp() {
 
+    private int tieneHijos(int i) {
+        int res = 0;
+        if (tamaño < (2*i)+1) {
+            res += 1;
+        }
+        if (tamaño < (2*i)+2) {
+            res += 1;
+        }
+        return res;
     }
-    
-    private void heapifyDown() {
-
-    }
+}
 
     
 
