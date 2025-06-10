@@ -55,7 +55,7 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
             }
         } else if (v < 0) {
             int ihijoIzq = (2*i)+1; 
-            if (tieneHijos(p) == 2) {
+            if (tieneHijos(i) == 2) {
 
                 int ihijoDer = (2*i)+2;
                 while (saldos[i].compareTo(saldos[ihijoIzq]) == -1 || saldos[i].compareTo(saldos[ihijoDer]) == -1) {                   
@@ -72,7 +72,7 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
                         ihijoDer = (2*i)+2;
                     }
                 }
-            } else if (tieneHijos(p) == 1 && (saldos[i].compareTo(saldos[ihijoIzq]) == -1)) { 
+            } else if (tieneHijos(i) == 1 && (saldos[i].compareTo(saldos[ihijoIzq]) == -1)) { 
                 //N no necesito el while porque si tiene un solo hijo, el hijo esta en el ultimo nivel y entonces mas que una vez no se puede bajar
                     heapify(ihijoIzq, i);
                 }

@@ -5,17 +5,31 @@ public class Bloque implements ListaPrioridad<Transaccion> {
     private int tamaño;
     private int montoTotal;
     private int[] internoT; //N por orden de transaccion
+    private boolean creacion;
 
     public Bloque(Transaccion[] transacciones) {
         interno = transacciones;
         tamaño = transacciones.length;
-        if (transacciones.length != 0) {
+        montoTotal = 0;
+        creacion = false;
+        if (transacciones.length != 0) {            
+            for (Transaccion T : transacciones) {
+                if (T.id_comprador() != 0) {
+                    montoTotal += T.monto();
+                } else {
+                    creacion = true;
+                }
+            }
             int n = tamaño -1;
             while (n >= 0) {
                 heapifyDown(n);
                 n -= 1;
             }
         }
+    }
+
+    public boolean tieneCreacion() {
+        return creacion;
     }
 
     public int montoTotal() {
@@ -35,15 +49,21 @@ public class Bloque implements ListaPrioridad<Transaccion> {
         
     }
 
-    private void actualizar() {
+    private void actualizar(int padre, int hijo) {
+        Transaccion TransaccionBaja = interno[padre];
+        Transaccion TransaccionSube = interno[hijo];
+
+        interno[padre] = TransaccionSube;
+        interno[hijo] = TransaccionBaja;
     }
 
     private void heapifyDown(int n) {
         int HijoIzq = (2*n)+1;
         int HijoDer = (2*n)+2;
+        int mod = n;
         Transaccion TransaccionBaja = interno[n];
 
-        if(HijoIzq < tamaño) {
+        while(HijoIzq < tamaño) {
             Transaccion HijoIT = interno[HijoIzq];
             if (HijoDer < tamaño) {
                 Transaccion HijoDT = interno[HijoDer];
@@ -51,23 +71,28 @@ public class Bloque implements ListaPrioridad<Transaccion> {
                 if (c == 1) {
                     int s = TransaccionBaja.compareTo(HijoIT);
                     if (s == -1) {
-                        interno[n] = HijoIT;
-                        interno[HijoIzq] = TransaccionBaja;
+                        actualizar(mod, HijoIzq);
+                        mod = HijoIzq;
                     } else {}
                 } else if (c == -1) {
                     int s = TransaccionBaja.compareTo(HijoDT);
                     if (s == -1) {
-                        interno[n] = HijoDT;
-                        interno[HijoDer] = TransaccionBaja;
+                        actualizar(mod, HijoDer);
+                        mod = HijoDer;
                 } else {}
                 } 
             }else { 
                 int s = TransaccionBaja.compareTo(HijoIT);
                 if (s == -1) {
-                    interno[n] = HijoIT;
-                    interno[HijoIzq] = TransaccionBaja;
+                    actualizar(mod, HijoIzq);
+                    mod = HijoIzq;
                 }
             }
+
+            TransaccionBaja = interno[mod];
+            HijoIzq = (2*mod)+1;
+            HijoDer = (2*mod)+2;
+            
         }
-    }   //N esto hay que implementar para que siga bajando todo lo que sea necesario (y seguramente se puede emprolijar significativamente)
+    } 
 }

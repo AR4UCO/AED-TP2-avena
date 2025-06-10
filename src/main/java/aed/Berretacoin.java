@@ -1,14 +1,13 @@
 package aed;
 
 public class Berretacoin {
-
     private Saldos saldo;
-    private BlockChain<Bloque> BlockChain;
+    private BlockChain BlockChain;
 
 
     public Berretacoin(int n_usuarios){
         saldo = new Saldos(n_usuarios);
-        BlockChain = new BlockChain<Bloque>();
+        BlockChain = new BlockChain();
     }
 
     public void agregarBloque(Transaccion[] transacciones){
@@ -38,7 +37,11 @@ public class Berretacoin {
     }
 
     public int montoMedioUltimoBloque(){
-        return(ultimoBloque().montoTotal()/ultimoBloque().longitud());
+        if (ultimoBloque().tieneCreacion() == true) {
+            return (ultimoBloque().montoTotal()/(ultimoBloque().longitud()-1));
+        } else {
+            return(ultimoBloque().montoTotal()/ultimoBloque().longitud());
+        }
         //N podriamos agregar un metodo que calcule el total sobre la longitud (osea el promedio) asi solo llamariamos a ese metodo
         //N (hay que mantener los metodos individuales de todos modos por que son necesarios para hackearTx)
     }
