@@ -6,14 +6,6 @@ import org.junit.jupiter.api.Test;
 
 class SaldosTests {
 
- //   @Test
-   // void sinSaldos() {
-     //   Saldos s = new Saldos(0);
-
-       // assertEquals(0, s.maximoTenedor());
-    //}
-
-
     @Test
     void actualizarAumentaSaldo(){
         Saldos s = new Saldos(5);
@@ -33,7 +25,7 @@ class SaldosTests {
         s.actualizar(4, 17);
         assertEquals(4, s.maximoTenedor());
         s.actualizar(2, 15);
-        s.actualizar(4, 10);
+        s.actualizar(4, -10);
         assertEquals(2, s.maximoTenedor());
         
 
