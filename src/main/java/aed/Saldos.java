@@ -91,10 +91,10 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
 
     private int tieneHijos(int i) {
         int res = 0;
-        if (tamaño < (2*i)+1) {
+        if (tamaño > (2*i)+1) {
             res += 1;
         }
-        if (tamaño < (2*i)+2) {
+        if (tamaño > (2*i)+2) {
             res += 1;
         }
         return res;
