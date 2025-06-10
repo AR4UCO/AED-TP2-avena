@@ -17,9 +17,9 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
             public int compareTo(Usuario n) {
             int v = 0;
             if (this.balance > n.balance || (this.balance == n.balance && this.id < n.id)) {
-                v = 1; // el original va arriba
+                v = 1; //N el original va arriba
             } else {
-                v = -1; // el segundo va arriba
+                v = -1; //N el segundo va arriba
             }
             return v;
         }
@@ -46,7 +46,7 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
     public void actualizar(int p, int v) {
         int i = handles[p];
         saldos[i].balance = saldos[i].balance + v;
-        if (v > 0) {
+        if (v > 0 && i > 0) {
             int iPadre = (i-1)/2;
             while (saldos[i].compareTo(saldos[iPadre]) == 1) {
                    heapify(i, iPadre);
@@ -60,12 +60,12 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
                 int ihijoDer = (2*i)+2;
                 while (saldos[i].compareTo(saldos[ihijoIzq]) == -1 || saldos[i].compareTo(saldos[ihijoDer]) == -1) {                   
                     int hijoMayor = saldos[ihijoIzq].compareTo(saldos[ihijoDer]);
-                    if (hijoMayor == 1) { // hijo izquiero es el mayor
+                    if (hijoMayor == 1) { //N hijo izquiero es el mayor
                         heapify(ihijoIzq, i);
                         i = handles[p];
                         ihijoIzq = (2*i)+1;
                         ihijoDer = (2*i)+2;
-                    } else { // hijo derecho es el mayor
+                    } else { //N hijo derecho es el mayor
                         heapify(ihijoDer, i);
                         i = handles[p];
                         ihijoIzq = (2*i)+1;
@@ -73,7 +73,7 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
                     }
                 }
             } else if (tieneHijos(p) == 1 && (saldos[i].compareTo(saldos[ihijoIzq]) == -1)) { 
-                //no necesito el while porque si tiene un solo hijo, el hijo esta en el ultimo nivel y entonces mas que una vez no se puede bajar
+                //N no necesito el while porque si tiene un solo hijo, el hijo esta en el ultimo nivel y entonces mas que una vez no se puede bajar
                     heapify(ihijoIzq, i);
                 }
             } else {}
@@ -84,8 +84,8 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
         saldos[UsuarioBaja] = saldos[UsuarioSube];
         saldos[UsuarioSube] = padreAnterior;
         
-        handles[UsuarioBaja] = saldos[UsuarioBaja].id;
-        handles[UsuarioSube] = saldos[UsuarioSube].id;
+        handles[saldos[UsuarioBaja].id] = UsuarioBaja;
+        handles[saldos[UsuarioSube].id] = UsuarioSube;
     }
 
 
