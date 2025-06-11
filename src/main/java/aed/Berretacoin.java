@@ -37,27 +37,35 @@ public class Berretacoin {
     }
 
     public int montoMedioUltimoBloque(){
-        if (ultimoBloque().tieneCreacion() == true) {
-            return (ultimoBloque().montoTotal()/(ultimoBloque().longitud()-1));
+        Bloque ultimo = ultimoBloque();
+        if (ultimo.tieneCreacion() == true) {
+            if (ultimo.longitud() == 1) {
+                return 0;
+            } else {
+                return (ultimo.montoTotal()/(ultimo.longitud()-1));
+            }
         } else {
-            return(ultimoBloque().montoTotal()/ultimoBloque().longitud());
+            return(ultimo.montoTotal()/ultimo.longitud());
         }
-        //N podriamos agregar un metodo que calcule el total sobre la longitud (osea el promedio) asi solo llamariamos a ese metodo
-        //N (hay que mantener los metodos individuales de todos modos por que son necesarios para hackearTx)
     }
 
     public void hackearTx(){
-        throw new UnsupportedOperationException("Implementar!");
+        Bloque ultimo = ultimoBloque();
+        Transaccion hackeada = ultimo.mayorValor();
+
+        if (hackeada.id_comprador() == 0) {
+           } else {
+               saldo.actualizar(hackeada.id_comprador(), hackeada.monto());
+           }
+           saldo.actualizar(hackeada.id_vendedor(),(-1*hackeada.monto()));
+        
+        ultimo.eliminarMaximo();
     }
 
     private Bloque ultimoBloque() {
         Bloque ultimo = BlockChain.obtener(BlockChain.longitud()-1);
         return ultimo;
-        //N podria posiblemente simplificarse si hacemos que obtener obtenga siempre el ultimo en cuyo caso creo no se necesita el metodo longitud
-        //N (considerar pros y contras)
-        //N el codigo podria quedar simplemente: 
-        //N return BlockChain.ultimo();
-    }
+        }
 }
 
 

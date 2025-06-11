@@ -4,7 +4,6 @@ public class Bloque implements ListaPrioridad<Transaccion> {
     private Transaccion[] interno;
     private int tamaño;
     private int montoTotal;
-    private int[] internoT; //N por orden de transaccion
     private boolean creacion;
 
     public Bloque(Transaccion[] transacciones) {
@@ -45,8 +44,19 @@ public class Bloque implements ListaPrioridad<Transaccion> {
     }
 
 
-    public void eliminar() {
-        
+    public void eliminarMaximo() {
+        Transaccion Raiz = interno[0];
+        Transaccion Ultimo = interno[tamaño-1];
+
+        interno[0] = Ultimo;
+        interno[tamaño-1] = Raiz;
+
+        tamaño -= 1;
+        if (Raiz.id_comprador() != 0) {
+            montoTotal -= Raiz.monto();
+        } else {}
+
+        heapifyDown(0);
     }
 
     private void actualizar(int padre, int hijo) {
@@ -62,8 +72,9 @@ public class Bloque implements ListaPrioridad<Transaccion> {
         int HijoDer = (2*n)+2;
         int mod = n;
         Transaccion TransaccionBaja = interno[n];
-
-        while(HijoIzq < tamaño) {
+        boolean sigoBajando = true;
+        
+        while(HijoIzq < tamaño && sigoBajando) {
             Transaccion HijoIT = interno[HijoIzq];
             if (HijoDer < tamaño) {
                 Transaccion HijoDT = interno[HijoDer];
@@ -73,19 +84,25 @@ public class Bloque implements ListaPrioridad<Transaccion> {
                     if (s == -1) {
                         actualizar(mod, HijoIzq);
                         mod = HijoIzq;
-                    } else {}
+                    } else {
+                        sigoBajando = false;
+                    }
                 } else if (c == -1) {
                     int s = TransaccionBaja.compareTo(HijoDT);
                     if (s == -1) {
                         actualizar(mod, HijoDer);
                         mod = HijoDer;
-                } else {}
+                    } else {
+                        sigoBajando = false;
+                    }
                 } 
             }else { 
                 int s = TransaccionBaja.compareTo(HijoIT);
                 if (s == -1) {
                     actualizar(mod, HijoIzq);
                     mod = HijoIzq;
+                } else {
+                    sigoBajando = false;
                 }
             }
 

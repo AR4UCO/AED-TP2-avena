@@ -46,19 +46,25 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
     public void actualizar(int p, int v) {
         int i = handles[p];
         saldos[i].balance = saldos[i].balance + v;
-        if (v > 0 && i > 0) {
+        if (v > 0) {
             int iPadre = (i-1)/2;
-            while (saldos[i].compareTo(saldos[iPadre]) == 1) {
+            while (saldos[i].compareTo(saldos[iPadre]) == 1 && i != 0) {
                    heapify(i, iPadre);
                    i = handles[p];
                    iPadre = (i-1)/2;
             }
         } else if (v < 0) {
-            int ihijoIzq = (2*i)+1; 
-            if (tieneHijos(i) == 2) {
-
-                int ihijoDer = (2*i)+2;
-                while (saldos[i].compareTo(saldos[ihijoIzq]) == -1 || saldos[i].compareTo(saldos[ihijoDer]) == -1) {                   
+            boolean sigoBajando = true;
+            int ihijoIzq = (2*i)+1;
+            int ihijoDer = (2*i)+2;
+            while (tieneHijos(i) != 0 && sigoBajando){
+                if (tieneHijos(i) == 1) {
+                    if (saldos[i].compareTo(saldos[ihijoIzq]) == -1) {
+                        heapify(ihijoIzq, i);
+                    } else {
+                        sigoBajando = false;
+                    }
+                } else if (tieneHijos(i) == 2 && (saldos[i].compareTo(saldos[ihijoIzq]) == -1 || saldos[i].compareTo(saldos[ihijoDer]) == -1)) {
                     int hijoMayor = saldos[ihijoIzq].compareTo(saldos[ihijoDer]);
                     if (hijoMayor == 1) { //N hijo izquiero es el mayor
                         heapify(ihijoIzq, i);
@@ -71,13 +77,12 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
                         ihijoIzq = (2*i)+1;
                         ihijoDer = (2*i)+2;
                     }
+                } else {
+                    sigoBajando = false;
                 }
-            } else if (tieneHijos(i) == 1 && (saldos[i].compareTo(saldos[ihijoIzq]) == -1)) { 
-                //N no necesito el while porque si tiene un solo hijo, el hijo esta en el ultimo nivel y entonces mas que una vez no se puede bajar
-                    heapify(ihijoIzq, i);
-                }
-            } else {}
-        }
+            }
+        } else {}
+    }
 
     private void heapify(int UsuarioSube, int UsuarioBaja) {
         Usuario padreAnterior = saldos[UsuarioBaja];
