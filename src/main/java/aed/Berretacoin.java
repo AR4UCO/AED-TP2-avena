@@ -29,7 +29,7 @@ public class Berretacoin {
     }
 
     public Transaccion[] txUltimoBloque(){
-        throw new UnsupportedOperationException("Implementar!");
+        return BlockChain.ultimo().bloquexId();
     }
 
     public int maximoTenedor(){

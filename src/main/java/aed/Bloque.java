@@ -2,12 +2,14 @@ package aed;
 
 public class Bloque implements ListaPrioridad<Transaccion> {
     private Transaccion[] interno;
+    private int[] handleB;
     private int tamaño;
     private int montoTotal;
     private boolean creacion;
 
     public Bloque(Transaccion[] transacciones) {
         interno = transacciones;
+        handleB = new int[transacciones.length];
         tamaño = transacciones.length;
         montoTotal = 0;
         creacion = false;
@@ -41,6 +43,14 @@ public class Bloque implements ListaPrioridad<Transaccion> {
 
     public Transaccion mayorValor() {
         return interno[0];
+    }
+
+    public Transaccion[] bloquexId(){
+        transaccion[] res = new tranccion[this.longitud()]; 
+        for(int i=0;i<this.longitud();i++){
+            res[i] = interno[handleB[i]]; 
+        }
+        return res;
     }
 
 
