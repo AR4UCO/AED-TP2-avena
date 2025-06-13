@@ -23,8 +23,8 @@ public class BlockChain implements Secuencia<Bloque> {
         return longi;
     }
 
-    public Nodo ultimo() {
-        return ultimo;
+    public Bloque ultimo() {
+        return ultimo.valor;
     }
 
     public void agregarAtras(Bloque elem) {
