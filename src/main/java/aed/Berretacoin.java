@@ -12,12 +12,12 @@ public class Berretacoin {
 
     public void agregarBloque(Transaccion[] transacciones){
 
-        for (Transaccion T : transacciones) {
-            if (T.id_comprador() == 0) {
+        for (Transaccion t : transacciones) {
+            if (t.id_comprador() == 0) {
             } else {
-                saldo.actualizar(T.id_comprador(), (-1 * T.monto()));
+                saldo.actualizar(t.id_comprador(), (-1 * t.monto()));
             }
-            saldo.actualizar(T.id_vendedor(), T.monto());
+            saldo.actualizar(t.id_vendedor(), t.monto());
         }
         Bloque bloque = new Bloque(transacciones);
 

@@ -3,23 +3,23 @@ package aed;
 public class Bloque implements ListaPrioridad<Transaccion> {
     private Transaccion[] interno;
     private int[] handleB;
-    private int eliminadas;
+    // private dict eliminadas;
     private int corrimiento;
     private int tamaño;
     private int montoTotal;
     private boolean creacion;
 
     public Bloque(Transaccion[] transacciones) {
-        interno = transacciones;
+        interno = transacciones.clone();
         handleB = new int[tamaño];
-        eliminadas = 0;
+        // eliminadas = 0;
         corrimiento = transacciones[0].id();
         tamaño = transacciones.length;
         montoTotal = 0;
         creacion = false;
-        if (transacciones.length != 0) {    
+        if (transacciones.length != 0) {
             handleB = new int[tamaño];
-            int i = 0;        
+            int i = tamaño - 1;
             for (Transaccion T : transacciones) {
                 handleB[i] = i;
                 if (T.id_comprador() != 0) {
@@ -27,9 +27,9 @@ public class Bloque implements ListaPrioridad<Transaccion> {
                 } else {
                     creacion = true;
                 }
-                i++;
+                i--;
             }
-            int n = tamaño -1;
+            int n = tamaño - 1;
             while (n >= 0) {
                 heapifyDown(n);
                 n -= 1;
@@ -53,31 +53,37 @@ public class Bloque implements ListaPrioridad<Transaccion> {
         return interno[0];
     }
 
-    public Transaccion[] bloquexId(){
-        Transaccion[] res = new Transaccion[this.longitud()]; 
-        for(int i=0;i<this.longitud();i++){
-            if (handleB[i]!= -1){
-            res[i] = interno[handleB[i]];
-            }else{}
+    public Transaccion[] bloquexId() {
+        Transaccion[] res = new Transaccion[this.longitud()];
+        int c = 0;
+        if (this.longitud() == 0) {
+            return res;
+        }
+        for (int i = 0 ; i < interno.length; i++) {
+            if (handleB[i] != -1) {
+                res[c] = interno[handleB[i]];
+                c += 1;
+            }
         }
         return res;
     }
 
-
     public void eliminarMaximo() {
         Transaccion Raiz = interno[0];
-        Transaccion Ultimo = interno[tamaño-1];
+        Transaccion Ultimo = interno[tamaño - 1];
 
-        handleB[interno[0].id()-corrimiento]=-1;
-        eliminadas ++;
-        
+        handleB[Raiz.id() - corrimiento] = -1;
+        handleB[Ultimo.id() - corrimiento] = 0;
+        // eliminadas ++;
+
         interno[0] = Ultimo;
-        interno[tamaño-1] = Raiz;
+        interno[tamaño - 1] = null;
 
         tamaño -= 1;
         if (Raiz.id_comprador() != 0) {
             montoTotal -= Raiz.monto();
-        } else {}
+        } else {
+        }
 
         heapifyDown(0);
     }
@@ -85,11 +91,11 @@ public class Bloque implements ListaPrioridad<Transaccion> {
     private void actualizar(int padre, int hijo) {
         Transaccion TransaccionBaja = interno[padre];
         Transaccion TransaccionSube = interno[hijo];
-        int indBaja = interno[padre].id()-corrimiento;
-        int indSube = interno[hijo].id()-corrimiento;
-        int hBaja = handleB[interno[padre].id()-corrimiento];
-        int hSube = handleB[interno[hijo].id()-corrimiento];
-         
+        int indBaja = interno[padre].id() - corrimiento;
+        int indSube = interno[hijo].id() - corrimiento;
+        int hBaja = handleB[interno[padre].id() - corrimiento];
+        int hSube = handleB[interno[hijo].id() - corrimiento];
+
         handleB[indBaja] = hSube;
         handleB[indSube] = hBaja;
 
@@ -98,13 +104,13 @@ public class Bloque implements ListaPrioridad<Transaccion> {
     }
 
     private void heapifyDown(int n) {
-        int HijoIzq = (2*n)+1;
-        int HijoDer = (2*n)+2;
+        int HijoIzq = (2 * n) + 1;
+        int HijoDer = (2 * n) + 2;
         int mod = n;
         Transaccion TransaccionBaja = interno[n];
         boolean sigoBajando = true;
-        
-        while(HijoIzq < tamaño && sigoBajando) {
+
+        while (HijoIzq < tamaño && sigoBajando) {
             Transaccion HijoIT = interno[HijoIzq];
             if (HijoDer < tamaño) {
                 Transaccion HijoDT = interno[HijoDer];
@@ -125,8 +131,8 @@ public class Bloque implements ListaPrioridad<Transaccion> {
                     } else {
                         sigoBajando = false;
                     }
-                } 
-            }else { 
+                }
+            } else {
                 int s = TransaccionBaja.compareTo(HijoIT);
                 if (s == -1) {
                     actualizar(mod, HijoIzq);
@@ -137,13 +143,18 @@ public class Bloque implements ListaPrioridad<Transaccion> {
             }
 
             TransaccionBaja = interno[mod];
-            HijoIzq = (2*mod)+1;
-            HijoDer = (2*mod)+2;
-            
-        }
-    } 
+            HijoIzq = (2 * mod) + 1;
+            HijoDer = (2 * mod) + 2;
 
-    public void agregarAtras(){}
-    public void agregarAdelante(){}
-    public void eliminar(){}
+        }
+    }
+
+    public void agregarAtras() {
+    }
+
+    public void agregarAdelante() {
+    }
+
+    public void eliminar() {
+    }
 }
