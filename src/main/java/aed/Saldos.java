@@ -33,12 +33,15 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
         handles[0] = -1;
         tamaño = n;
 
-        while (c != n + 1) {
+        while (c != n + 1) { // O(n)
             saldos[c - 1] = new Usuario(c);
             handles[c] = c - 1;
             c += 1;
         }
     }
+
+    // La complejidad es O(n) ya que el constructor recorre una vez el rango de 1 a n para iniciar,
+    // no realiza ninguna tarea que aumente esta complejidad
 
     public int maximoTenedor() {
         return saldos[0].id;
@@ -47,18 +50,19 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
     public void actualizar(int p, int v) {
         int i = handles[p];
         saldos[i].balance = saldos[i].balance + v;
-        if (v > 0) {
+        if (v > 0) { // O(Log n)
             int iPadre = (i - 1) / 2;
-            while (saldos[i].compareTo(saldos[iPadre]) == 1 && i != 0) {
+            while (saldos[i].compareTo(saldos[iPadre]) == 1 && i != 0) { // O(Log n)
                 heapify(i, iPadre);
                 i = handles[p];
                 iPadre = (i - 1) / 2;
             }
+            // Compara en el heap cuyo tamaño es Log(n)
         } else if (v < 0) {
             boolean sigoBajando = true;
             int ihijoIzq = (2 * i) + 1;
             int ihijoDer = (2 * i) + 2;
-            while (tieneHijos(i) != 0 && sigoBajando) {
+            while (tieneHijos(i) != 0 && sigoBajando) { // O(Log n)
                 if (tieneHijos(i) == 1) {
                     if (saldos[i].compareTo(saldos[ihijoIzq]) == -1) {
                         heapify(ihijoIzq, i);
