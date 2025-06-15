@@ -25,7 +25,7 @@ public class Berretacoin {
     }
 
     public Transaccion txMayorValorUltimoBloque(){
-        return ultimoBloque().mayorValor();
+        return BlockChain.ultimo().mayorValor();
     }
 
     public Transaccion[] txUltimoBloque(){
@@ -37,7 +37,7 @@ public class Berretacoin {
     }
 
     public int montoMedioUltimoBloque(){
-        Bloque ultimo = ultimoBloque();
+        Bloque ultimo = BlockChain.ultimo();
         if (ultimo.tieneCreacion() == true) {
             if (ultimo.longitud() == 1) {
                 return 0;
@@ -50,7 +50,7 @@ public class Berretacoin {
     }
 
     public void hackearTx(){
-        Bloque ultimo = ultimoBloque();
+        Bloque ultimo = BlockChain.ultimo();
         Transaccion hackeada = ultimo.mayorValor();
 
         if (hackeada.id_comprador() == 0) {
