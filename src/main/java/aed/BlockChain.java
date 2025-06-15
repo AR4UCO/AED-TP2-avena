@@ -10,7 +10,9 @@ public class BlockChain implements Secuencia<Bloque> {
         Nodo sig;
         Nodo ant;
 
-        Nodo(Bloque v) {valor = v;}
+        Nodo(Bloque v) {
+            valor = v;
+        }
     }
 
     public BlockChain() {
@@ -29,29 +31,29 @@ public class BlockChain implements Secuencia<Bloque> {
 
     public void agregarAtras(Bloque elem) {
         Nodo nuevo = new Nodo(elem);
-        if (ultimo == null){
+        if (ultimo == null) {
             primero = nuevo;
             ultimo = nuevo;
-        } else{
+        } else {
             nuevo.ant = ultimo;
             ultimo.sig = nuevo;
             ultimo = nuevo;
         }
-        longi +=1;
+        longi += 1;
     }
 
     public Bloque obtener(int i) {
         Nodo actual = primero;
-        for (int j=0;j<i;j++){
+        for (int j = 0; j < i; j++) {
             actual = actual.sig;
         }
         return actual.valor;
     }
 
     private class ListaIterador implements Iterador<Bloque> {
-    	int contador;
+        int contador;
 
-        ListaIterador(){
+        ListaIterador() {
             contador = 0;
         }
 
@@ -67,31 +69,30 @@ public class BlockChain implements Secuencia<Bloque> {
         public Bloque siguiente() {
             Nodo actual = primero;
             int l = 0;
-            while (l != contador){
+            while (l != contador) {
                 actual = actual.sig;
-                l+=1;
+                l += 1;
             }
 
-            contador = contador +1;
+            contador = contador + 1;
             return actual.valor;
 
         }
 
-
         public Bloque anterior() {
             Nodo actual = ultimo;
             int l = longi;
-            while(l != contador){
+            while (l != contador) {
                 actual = actual.ant;
-                l = l -1;
+                l = l - 1;
             }
-            contador = contador -1;
+            contador = contador - 1;
             return actual.valor;
         }
     }
 
     public Iterador<Bloque> iterador() {
-	    return new ListaIterador();
+        return new ListaIterador();
     }
 
 }

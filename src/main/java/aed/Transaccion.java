@@ -15,27 +15,30 @@ public class Transaccion implements Comparable<Transaccion> {
 
     @Override
     // Todos los tipos de datos "Comparables" tienen el método compareTo()
-    // elem1.compareTo(elem2) devuelve un entero. Si es mayor a 0, entonces elem1 > elem2
+    // elem1.compareTo(elem2) devuelve un entero. Si es mayor a 0, entonces elem1 >
+    // elem2
     public int compareTo(Transaccion otro) {
         if (this.monto == otro.monto()) {
             if (this.id > otro.id) {
                 return 1;
-            }else if (this.id < otro.id) {
+            } else if (this.id < otro.id) {
                 return -1;
             } else {
                 return 0;
             }
-        }else if (this.monto > otro.monto()) {
+        } else if (this.monto > otro.monto()) {
             return 1;
-        }else return -1;
+        } else
+            return -1;
     }
 
     @Override
-    public boolean equals(Object otro){
+    public boolean equals(Object otro) {
         boolean res = false;
-        if(otro.getClass() == this.getClass()){
+        if (otro.getClass() == this.getClass()) {
             Transaccion otroT = (Transaccion) otro;
-            res = (otroT.id()==this.id && otroT.id_comprador() == this.id_comprador && otroT.id_vendedor() == this.id_vendedor && otroT.monto() == this.monto);
+            res = (otroT.id() == this.id && otroT.id_comprador() == this.id_comprador
+                    && otroT.id_vendedor() == this.id_vendedor && otroT.monto() == this.monto);
         }
         return res;
     }
@@ -47,7 +50,7 @@ public class Transaccion implements Comparable<Transaccion> {
     public int id_comprador() {
         return id_comprador;
     }
-    
+
     public int id_vendedor() {
         return id_vendedor;
     }

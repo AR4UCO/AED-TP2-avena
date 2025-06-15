@@ -57,7 +57,7 @@ public class Bloque implements ListaPrioridad<Transaccion> {
         if (this.longitud() == 0) {
             return res;
         }
-        for (int i = 0 ; i < interno.length; i++) {
+        for (int i = 0; i < interno.length; i++) {
             if (handleB[i] != -1) {
                 res[c] = interno[handleB[i]];
                 c += 1;
