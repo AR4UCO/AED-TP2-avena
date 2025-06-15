@@ -1,11 +1,12 @@
 package aed;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 class BlockChainTests {
-    
+
     @Test
     void nuevaListaEstaVacia() {
         BlockChain lista = new BlockChain();
@@ -35,16 +36,15 @@ class BlockChainTests {
         lista.agregarAtras(b2);
         lista.agregarAtras(b3);
 
-
         assertEquals(3, lista.longitud());
         assertEquals(b1, lista.obtener(0));
         assertEquals(b2, lista.obtener(1));
         assertEquals(b3, lista.obtener(2));
     }
 
-     @Test
+    @Test
     void iteradorListaVacia() {
-        BlockChain lista= new BlockChain();
+        BlockChain lista = new BlockChain();
 
         Iterador<Bloque> it = lista.iterador();
 
@@ -52,7 +52,7 @@ class BlockChainTests {
         assertFalse(it.hayAnterior());
     }
 
-        @Test
+    @Test
     void iteradorRecorreListaHaciaAdelante() {
         BlockChain lista = new BlockChain();
         Bloque b1 = new Bloque(new Transaccion[0]);
@@ -75,7 +75,7 @@ class BlockChainTests {
     }
 
     @Test
-    void iteradorEsBidireccional(){
+    void iteradorEsBidireccional() {
         BlockChain lista = new BlockChain();
         Bloque b1 = new Bloque(new Transaccion[0]);
         Bloque b2 = new Bloque(new Transaccion[0]);
