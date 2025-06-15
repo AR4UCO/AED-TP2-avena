@@ -3,7 +3,6 @@ package aed;
 public class Bloque implements ListaPrioridad<Transaccion> {
     private Transaccion[] interno;
     private int[] handleB;
-    // private dict eliminadas;
     private int corrimiento;
     private int tamaño;
     private int montoTotal;
@@ -12,12 +11,11 @@ public class Bloque implements ListaPrioridad<Transaccion> {
     public Bloque(Transaccion[] transacciones) {
         interno = transacciones.clone();
         handleB = new int[tamaño];
-        // eliminadas = 0;
-        corrimiento = transacciones[0].id();
         tamaño = transacciones.length;
         montoTotal = 0;
         creacion = false;
         if (transacciones.length != 0) {
+            corrimiento = transacciones[0].id();
             handleB = new int[tamaño];
             int i = tamaño - 1;
             for (Transaccion T : transacciones) {
