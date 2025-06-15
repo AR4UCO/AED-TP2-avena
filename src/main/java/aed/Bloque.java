@@ -34,6 +34,12 @@ public class Bloque implements ListaPrioridad<Transaccion> {
             }
         }
     }
+    /*
+    para agregar bloque se inicializan las distintas variables y constantes que vamos a usar.
+    para cada transaccion se actualiza el monto y se agrega al handle del heap - O(n)
+    luego se hace heapify a la seq de transacciones - O(n)
+    entonces O(n)+O(n)=O(max{n,n})=O(n)
+    */
 
     public boolean tieneCreacion() {
         return creacion;
@@ -65,6 +71,10 @@ public class Bloque implements ListaPrioridad<Transaccion> {
         }
         return res;
     }
+    /*
+    para dar el ultimo bloque se recorre todo el array de handleB y se imprimen sus valores - O(n)
+    n siendo la cantidad de transacciones
+    */
 
     public void eliminarMaximo() {
         Transaccion Raiz = interno[0];
@@ -72,7 +82,6 @@ public class Bloque implements ListaPrioridad<Transaccion> {
 
         handleB[Raiz.id() - corrimiento] = -1;
         handleB[Ultimo.id() - corrimiento] = 0;
-        // eliminadas ++;
 
         interno[0] = Ultimo;
         interno[tamaño - 1] = null;
@@ -85,6 +94,10 @@ public class Bloque implements ListaPrioridad<Transaccion> {
 
         heapifyDown(0);
     }
+    /*
+    se rota al primer y ultimo elemento
+    se baja al ultimo elemento para ordenar el heap (se desencola el heap) - O(log n)
+    */
 
     private void actualizar(int padre, int hijo) {
         Transaccion TransaccionBaja = interno[padre];
@@ -146,6 +159,10 @@ public class Bloque implements ListaPrioridad<Transaccion> {
 
         }
     }
+    /*
+    la funcion que actualiza el heap
+    sift down - O(log(n)) 
+    */
 
     public void agregarAtras() {
     }

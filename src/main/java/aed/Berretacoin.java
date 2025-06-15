@@ -27,7 +27,7 @@ public class Berretacoin {
     }
     /*
         Actualizar saldos es O(2*n*log(p)) y armar el heap bloque es O(log(n)).
-        Por lo que la complejidad es  O(2*n*log(p)) + O(log(n)) = O(n*log(p)).
+        Por lo que la complejidad es  O(2*n*log(p)) + O(n) = O(n*log(p)).
     */
 
     public Transaccion txMayorValorUltimoBloque() { // O(1)
