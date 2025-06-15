@@ -84,6 +84,11 @@ public class Berretacoin {
 
         ultimo.eliminarMaximo();
     }
+    /*
+        Reordenar el heap bloque luego de eliminar la raiz nos lleva O(log(n))
+        y reordenar el heap saldos, luego de actualizar los valores de dos id nos lleva O(2*log(P)) = O(log(P))
+        Por lo que se mantiene la complejidad O(log(n) + log(p)).
+    */
 
     private Bloque ultimoBloque() {
         Bloque ultimo = BlockChain.ultimo();
