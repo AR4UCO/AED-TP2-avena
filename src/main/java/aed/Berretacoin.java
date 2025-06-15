@@ -62,7 +62,7 @@ public class Berretacoin {
     }
 
     private Bloque ultimoBloque() {
-        Bloque ultimo = BlockChain.obtener(BlockChain.longitud() - 1);
+        Bloque ultimo = BlockChain.ultimo();
         return ultimo;
     }
 }
