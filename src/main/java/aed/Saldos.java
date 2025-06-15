@@ -57,7 +57,6 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
                 i = handles[p];
                 iPadre = (i - 1) / 2;
             }
-            // Compara en el heap cuyo tamaño es Log(n)
         } else if (v < 0) {
             boolean sigoBajando = true;
             int ihijoIzq = (2 * i) + 1;

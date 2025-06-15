@@ -26,7 +26,7 @@ public class Berretacoin {
         BlockChain.agregarAtras(bloque);
     }
     /*
-        Actualizar saldos es O(2*n*log(p)) y armar el heap bloque es O(log(n)).
+        Actualizar saldos es O(2*n*log(p)) y armar el heap bloque es O(n).
         Por lo que la complejidad es  O(2*n*log(p)) + O(n) = O(n*log(p)).
     */
 
@@ -89,9 +89,4 @@ public class Berretacoin {
         y reordenar el heap saldos, luego de actualizar los valores de dos id nos lleva O(2*log(P)) = O(log(P))
         Por lo que se mantiene la complejidad O(log(n) + log(p)).
     */
-
-    private Bloque ultimoBloque() {
-        Bloque ultimo = BlockChain.ultimo();
-        return ultimo;
-    }
 }
