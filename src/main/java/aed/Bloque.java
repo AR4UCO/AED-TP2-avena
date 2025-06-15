@@ -164,12 +164,5 @@ public class Bloque implements ListaPrioridad<Transaccion> {
     sift down - O(log(n)) 
     */
 
-    public void agregarAtras() {
-    }
 
-    public void agregarAdelante() {
-    }
-
-    public void eliminar() {
-    }
 }
