@@ -40,7 +40,7 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
         }
     }
 
-    // La complejidad es O(n) ya que el constructor recorre una vez el rango de 1 a n para iniciar,
+    // La complejidad es O(n),aca siendo n la cantidad de usuarios, ya que el constructor recorre una vez el rango de 1 a n para iniciar,
     // no realiza ninguna tarea que aumente esta complejidad
 
     public int maximoTenedor() {
