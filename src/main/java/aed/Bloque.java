@@ -37,7 +37,7 @@ public class Bloque implements ListaPrioridad<Transaccion> {
     /*
     para agregar bloque se inicializan las distintas variables y constantes que vamos a usar.
     para cada transaccion se actualiza el monto y se agrega al handle del heap - O(n)
-    luego se hace heapify a la seq de transacciones - O(n)
+    luego se hace heapify a la seq de transacciones - O(n) ya que usamos la técnica de construcción del heap bottom up
     entonces O(n)+O(n)=O(max{n,n})=O(n)
     */
 
