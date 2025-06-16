@@ -90,6 +90,13 @@ public class Saldos implements BDDUsuarios<Saldos.Usuario> {
         }
     }
 
+/*
+ * Dado un id y un valor, se utiliza el handle para encontrar la posicion en O(1), se actualiza su balance y luego se rota el id, dependiendo de si su balance
+ * subio o bajo, como el heap es binario y balanceado la altura es log(p) entonces como maximo se hacen log(p) rotaciones, como las rotaciones es 
+ * solo reasignar variables entonces la complejidad queda en O(logP)
+ */
+
+    
     private void heapify(int UsuarioSube, int UsuarioBaja) {
         Usuario padreAnterior = saldos[UsuarioBaja];
         saldos[UsuarioBaja] = saldos[UsuarioSube];
