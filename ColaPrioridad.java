@@ -2,13 +2,15 @@ package aed;
 
 public class ColaPrioridad<T extends Comparable<T>>{
     private T[] heapArray;
-    private int[] handleArray;
+    private elemhandle[] handleArray;
     private int tamaño;
     private T corrimiento;
 
-    private class handles {
+    private class elemhandle {
+        private T valor;
         private int posicion;
-
+        elemhandle(t)
+        
     }
 
 
@@ -17,12 +19,12 @@ public class ColaPrioridad<T extends Comparable<T>>{
         tamaño = base.length;
         if (tamaño != 0) {  //O(1)
             corrimiento = base[0];
-            handleArray = new int[tamaño];
-            int i = tamaño - 1;
+            int i = 0;
             for (T b : base) {
-                handleArray[i] = i;
-                i--;
-            }
+                elemhandle a = new elemhandle(); 
+                handleArray[i] = ;
+                i++;
+            }  
             int n = tamaño - 1;
             while (n >= 0) {
                 heapifyDown(n);
@@ -101,13 +103,13 @@ public class ColaPrioridad<T extends Comparable<T>>{
         return res;
     }
 
-    private void swap(int Sube, int Baja) {
+    private void swap(T Sube, int Baja) {
         T padreAnterior = heapArray[Baja];
         heapArray[Baja] = heapArray[Sube];
         heapArray[Sube] = padreAnterior;
 
-        handleArray[heapArray[Baja]] = Baja;
-        handleArray[heapArray[Sube]] = Sube;
+        handleArray[heapArray[Baja]] = Sube;
+        handleArray[heapArray[Sube]] = Baja;
     }
 
     public T maximo() {
