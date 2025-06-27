@@ -2,11 +2,11 @@ package aed;
 
 public class Berretacoin {
     private Saldos saldo;
-    private BlockChain BlockChain;
+    private ListaDoblementeEnlazada BlockChain;
 
     public Berretacoin(int n_usuarios) { // O(P)
-        saldo = new Saldos(n_usuarios);
-        BlockChain = new BlockChain();
+        saldo = new Saldos(n_usuarios); //O(P)
+        BlockChain = new ListaDoblementeEnlazada(); //O(1)
     }
     /*
         Se mantiene la complejidad porque se crea un heap saldos iterando en la cantidad de usuarios P O(P)
@@ -14,16 +14,16 @@ public class Berretacoin {
 
     public void agregarBloque(Transaccion[] transacciones) { // O(n*log(p))
 
-        for (Transaccion t : transacciones) {
-            if (t.id_comprador() == 0) {
+        for (Transaccion t : transacciones) { //O(n)
+            if (t.id_comprador() == 0) { //O(1)
             } else {
-                saldo.actualizar(t.id_comprador(), (-1 * t.monto()));
+                saldo.actualizar(t.id_comprador(), (-1 * t.monto())); //O(log(n)) (maximo la altura del arbol)
             }
-            saldo.actualizar(t.id_vendedor(), t.monto());
+            saldo.actualizar(t.id_vendedor(), t.monto()); //O(log(n)) (maximo la altura del arbol)
         }
-        Bloque bloque = new Bloque(transacciones);
+        Bloque bloque = new Bloque(transacciones); //O(n)  (bottom up, por algoritmo de floyd)
 
-        BlockChain.agregarAtras(bloque);
+        BlockChain.agregarAtras(bloque); //O(1)
     }
     /*
         Actualizar saldos es O(2*n*log(p)) y armar el heap bloque es O(n).
@@ -54,16 +54,16 @@ public class Berretacoin {
     //Devuelve la raiz del heap saldos = O(1)
 
     public int montoMedioUltimoBloque() { // O(1)
-        Bloque ultimo = BlockChain.ultimo();
-        if (ultimo.tieneCreacion() == true) {
-            if (ultimo.longitud() == 1) {
+        Bloque ultimo = BlockChain.ultimo(); //O(1)
+        if (ultimo.tieneCreacion() == true) {  //O(1)
+            if (ultimo.longitud() == 1) { //O(1)
                 return 0;
             } else {
-                return (ultimo.montoTotal() / (ultimo.longitud() - 1));
+                return (ultimo.montoTotal() / (ultimo.longitud() - 1)); //O(1)
             }
         } else {
-            return (ultimo.montoTotal() / ultimo.longitud());
-        }
+            return (ultimo.montoTotal() / ultimo.longitud()); //O(1)
+        } 
     }
     /*
         montoTotal y tamaño son atributos del bloque.
@@ -73,16 +73,16 @@ public class Berretacoin {
     */
 
     public void hackearTx() { // O(log(n) + log(p))
-        Bloque ultimo = BlockChain.ultimo();
-        Transaccion hackeada = ultimo.mayorValor();
+        Bloque ultimo = BlockChain.ultimo(); //O(1)
+        Transaccion hackeada = ultimo.mayorValor(); //O(1)
 
-        if (hackeada.id_comprador() == 0) {
-        } else {
-            saldo.actualizar(hackeada.id_comprador(), hackeada.monto());
+        if (hackeada.id_comprador() == 0) { //O(1)
+        } else { 
+            saldo.actualizar(hackeada.id_comprador(), hackeada.monto()); //O(log(n)) maximo altura del arbol
         }
-        saldo.actualizar(hackeada.id_vendedor(), (-1 * hackeada.monto()));
+        saldo.actualizar(hackeada.id_vendedor(), (-1 * hackeada.monto())); //O(log(n)) maximo altura del arbol
 
-        ultimo.eliminarMaximo();
+        ultimo.eliminarMaximo(); //O(log(n))
     }
     /*
         Reordenar el heap bloque luego de eliminar la raiz nos lleva O(log(n))
@@ -90,3 +90,4 @@ public class Berretacoin {
         Por lo que se mantiene la complejidad O(log(n) + log(p)).
     */
 }
+
