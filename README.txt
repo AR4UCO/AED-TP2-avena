@@ -29,3 +29,5 @@ Falta aun hacer el Actualizar Saldos (A fecha 5/7 a las 12AM), adjunto el mensaj
 Falta además actualizar los casos de test nuestros para que funcionen con los nuevos cambios!!
 
 ************
+
+Todo lo de esta revision del TP se encuentra en la carpeta "AED-TP2-avena-V2" ignorar el resto (creo que es lo de main, y por las dudas no quise borrarlo, no se como funciona bien)
