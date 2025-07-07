@@ -1,11 +1,13 @@
 package aed;
 
 public class ColaPrioridad<T extends Comparable<T>> {
+
     private Tupla<T>[] heapArray;
     private int tamaño;
     private int[] handleArray;
 
     public class Tupla<T> {
+
         public T primero;
         public int segundo;
 
@@ -38,14 +40,14 @@ public class ColaPrioridad<T extends Comparable<T>> {
         return tamaño;
     }
 
-    public void actualizar(int handle, int subeObaja) { // 1. Handle 2.suma/resta Saldo
+    public void actualizar(int handle, int subeObaja) { // 1. Handle 2.suma/resta Saldo. Complejidad: O(log(n))
         int i = handleArray[handle];
 
-        if (subeObaja > 0) {
-            heapifyUp(i);
-        } else if (subeObaja < 0) {
-            heapifyDown(i);
-        }
+        //if (subeObaja == 1) {
+        heapifyUp(i); //O(log(n))
+        //} else if (subeObaja == -1) {
+        heapifyDown(i); //O(log(n))
+        //}
     }
 
     private void heapifyDown(int n) {
@@ -113,11 +115,11 @@ public class ColaPrioridad<T extends Comparable<T>> {
     }
 
     public int obtenerPosicion(int id) { //O(1)
-    return handleArray[id];
+        return handleArray[id];
     }
 
     public T maximo() {
-        return heapArray[0].primero;    
+        return heapArray[0].primero;
     }
 
     public void desencolar() {
