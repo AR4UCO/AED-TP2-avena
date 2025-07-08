@@ -109,8 +109,8 @@ public class ColaPrioridad<T extends Comparable<T>> {
         heapArray[Sube] = heapArray[Baja];
         heapArray[Baja] = padreAnterior;
 
-        handleArray[heapArray[Sube].segundo] = Baja; //ver
-        handleArray[heapArray[Baja].segundo] = Sube;
+        handleArray[heapArray[Sube].segundo] = Sube; //ver
+        handleArray[heapArray[Baja].segundo] = Baja;
 
     }
 
@@ -124,12 +124,13 @@ public class ColaPrioridad<T extends Comparable<T>> {
 
     public void desencolar() {
         int Raiz = 0;
+        int handleOrig = heapArray[Raiz].segundo;
         Tupla<T> Ultimo = heapArray[tamaño - 1];
 
         heapArray[Raiz] = Ultimo;
         heapArray[tamaño - 1] = null;
 
-        handleArray[heapArray[Raiz].segundo] = -1;
+        handleArray[handleOrig] = -1; //estaba actualizando mal este handle
         handleArray[Ultimo.segundo] = 0;
 
         tamaño -= 1;
